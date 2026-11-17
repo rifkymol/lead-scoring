@@ -39,5 +39,5 @@
 - [x] Fill in `DEPLOY.md` with the live URL, repo URL and verified deploy steps.
 
 - [x] Write the approximately 200-word README with model/rubric rationale, brief ambiguity decisions, setup/example request, and future work; put longer evidence in a separate document. (Example now uses the live URL. Longer evidence is in `tasks/todo.md` and `DEPLOY.md`.)
-- [ ] Check repository visibility/access, exclude secrets, record actual hours, and prepare the endpoint/repository/time submission. (Public and secret-free, verified 2026-11-16. Actual hours not yet recorded.)
+- [x] Check repository visibility/access, exclude secrets, record actual hours, and prepare the endpoint/repository/time submission. (Public and secret-free, verified 2026-11-16. Actual time: about 1.5 hours, recorded in README.)
 - [ ] Record final verification results and residual risks in the project task review; align the Spec Kit with implemented behavior.

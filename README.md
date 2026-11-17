@@ -27,7 +27,8 @@ Facts the buyer has not stated stay unknown, and contradictory claims stay confl
 
 ## Future work
 
-- Run real-model extraction evals on the samples and trickier cases.
-- Measure deployed latency.
+- Grow the eval set beyond 18 cases (14 harder ones live in `tests/tricky_cases.py`) and track per-fact accuracy, not just score.
 - Expand the brand catalog.
 - Verify licenses against registries.
+
+**Time spent:** about 1.5 hours.
