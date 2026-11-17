@@ -147,6 +147,30 @@ def test_inconsistent_history_rejected():
                                                              evidence=[ev(3, "importing")])), match="import_history")
 
 
+def test_evidence_less_negative_status_becomes_unknown():
+    # Seen live on S002: the model reported distribution "absent" from silence.
+    from app.extraction_schema import DistributionFact
+
+    e = full_extraction(
+        distribution_network=DistributionFact(status="absent", evidence=[]),
+        license=LicenseFact(status="absent", evidence=[]),
+        import_history=ImportHistoryFact(status="no_history", years=None, evidence=[]),
+    )
+    check(e)
+    assert e.distribution_network.status == "unknown"
+    assert e.license.status == "unknown"
+    assert e.import_history.status == "unknown"
+
+
+def test_negative_status_with_bad_evidence_still_rejected():
+    rejects(full_extraction(license=LicenseFact(status="absent", evidence=[ev(4, "not in the text")])),
+            match="validation: license ")
+
+
+def test_other_evidence_less_known_status_still_rejected():
+    rejects(full_extraction(purpose=PurposeFact(status="personal", evidence=[])), match="validation: purpose ")
+
+
 def test_named_brand_requires_brand_in_evidence():
     rejects(full_extraction(product=ProductFact(status="named_brand", evidence=[ev(0, "Coastline Wholesale")])), match="no evidence quote names a listed brand")
     check(full_extraction(product=ProductFact(status="named_brand", evidence=[ev(0, "Coca-Cola")])))

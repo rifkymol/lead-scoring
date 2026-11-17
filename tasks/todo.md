@@ -4,7 +4,7 @@
 - [x] Draft the four-part Spec Kit and incorporate the supplied reviewer findings.
 - [x] User review of revised plan. (Approved 2026-11-07.)
 - [ ] Implement and validate the service using `specs/lead-scoring-v1/tasks.md`. (Implemented and verified locally with mocks. The real extraction eval is still pending and needs an API key plus the original transcripts.)
-- [ ] Deploy, verify, document, and prepare submission.
+- [ ] Deploy, verify, document, and prepare submission. (Deployed and verified live 2026-11-17: https://lead-scoring-eight.vercel.app, repo https://github.com/rifkymol/lead-scoring. Left: trickier evals, local per-fact eval, hours.)
 
 ## Review
 

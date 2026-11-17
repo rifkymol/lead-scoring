@@ -3,7 +3,10 @@
 These are structural checks: they prove each cited quote exists in the cited
 message and that buyer facts rest on buyer messages. They cannot prove that a
 quote semantically supports the interpretation; labeled extraction evals cover that.
-Any failure raises ExtractionFailed (HTTP 502); nothing is silently downgraded.
+Any failure raises ExtractionFailed (HTTP 502). One normalization runs first: a
+negative status ("absent", "no_history") with no evidence at all means the buyer
+said nothing, which the extraction rules define as "unknown", so it is recorded as
+unknown. Everything else that fails is rejected, never downgraded.
 """
 
 import math
@@ -117,7 +120,26 @@ def _check_product(extraction: Extraction) -> None:
             _fail("product", "is named_brand but no evidence quote names a listed brand")
 
 
+_SILENCE_STATUSES = {
+    "distribution_network": "absent",
+    "license": "absent",
+    "import_history": "no_history",
+}
+
+
+def _normalize_silence(extraction: Extraction) -> None:
+    """Treat an evidence-less negative status as unknown (the buyer said nothing)."""
+    facts = extraction.facts()
+    for name, negative in _SILENCE_STATUSES.items():
+        fact = facts[name]
+        if fact.status == negative and not fact.evidence:
+            fact.status = "unknown"
+            if name == "import_history":
+                fact.years = None
+
+
 def validate_extraction(extraction: Extraction, conversation: list[Message]) -> None:
+    _normalize_silence(extraction)
     for name, fact in extraction.facts().items():
         _check_evidence(name, fact, conversation)
     _check_volume(extraction)

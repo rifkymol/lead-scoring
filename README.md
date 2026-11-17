@@ -2,6 +2,8 @@
 
 FastAPI service that scores beverage buyer inquiries and routes them to sales.
 
+Live: `POST https://lead-scoring-eight.vercel.app/score` (health check: `GET /health`). See [DEPLOY.md](DEPLOY.md) for verification results.
+
 ## Setup
 
 ```bash
@@ -11,7 +13,7 @@ cp .env.example .env   # set OPENAI_API_KEY; OPENAI_MODEL is optional
 ```
 
 ```bash
-curl -X POST $URL/score -H "Content-Type: application/json" \
+curl -X POST https://lead-scoring-eight.vercel.app/score -H "Content-Type: application/json" \
   -d '{"lead_id":"S001","channel":"email","conversation":[{"role":"lead","text":"We need 2 FCL of Red Bull monthly."}]}'
 ```
 
