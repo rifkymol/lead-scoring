@@ -29,7 +29,7 @@
 - [x] Verify malformed/oversized requests, injection text, provider refusals/rate limits/errors, missing credentials, and timeout cancellation produce the documented behavior. (Verified with a mocked provider. The injection test covers data isolation and that injected text is never echoed, not how the model actually responds.)
 - [x] Verify tier boundaries 39/40/79/80, exact success keys, echoed identifiers, integer scores, and every cap combination.
 - [x] Replace placeholder fixtures with the brief's verbatim S001/S002/S003/L001 transcripts; mocked tests pass (201 passed, 4 skipped).
-- [ ] Add trickier eval payloads modeled on what graders may send: informal or partly non-English text, prompt injection, mixed or unrelated products, one-off orders, volume or license corrections.
+- [x] Add trickier eval payloads modeled on what graders may send: informal or partly non-English text, prompt injection, mixed or unrelated products, one-off orders, volume or license corrections. (14 cases in `tests/tricky_cases.py`, run live by `scripts/live_eval.py`. 2026-11-17: first run 16/18; after a product-classification prompt fix, 54/54 over 3 rounds.)
 - [ ] Run real extraction evaluations, inspect semantic failures even when the final tier is correct, and record commands/results.
 - [x] Deploy the complete service; POST real samples publicly, check JSON and access, and measure fresh and repeated request latency against 30 seconds. (First call after deploy ~4 s; 20 repeated calls min 1.47 / median 1.99 / max 2.96 s.)
 

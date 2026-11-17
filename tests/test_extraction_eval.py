@@ -15,6 +15,7 @@ from app.extraction import extract
 from app.models import ScoreRequest
 from app.scoring import score_extraction
 from tests.fixtures import REQUIRED_FACTS, SAMPLES
+from tests.tricky_cases import TRICKY
 
 pytestmark = [
     pytest.mark.eval,
@@ -48,3 +49,15 @@ def test_real_extraction_matches_required_facts(sample_id):
 
     expected = SAMPLES[sample_id]["expected"]
     assert (result.score, result.tier, result.routing) == (expected["score"], expected["tier"], expected["routing"])
+
+
+@pytest.mark.parametrize("case_id", list(TRICKY))
+def test_real_extraction_tricky_cases(case_id):
+    case = TRICKY[case_id]
+    request = ScoreRequest(**case["request"])
+    extraction = asyncio.run(extract(request.conversation))
+    validate_extraction(extraction, request.conversation)
+    result = score_extraction(extraction)
+    print(f"\n{case_id}: {extraction.model_dump_json()}\n-> {result.score} {result.tier}")
+    assert result.score in case["scores"], case["why"]
+    assert result.tier == case["tier"]

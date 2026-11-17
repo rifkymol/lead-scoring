@@ -16,6 +16,20 @@ Status: deployed on Vercel (Hobby plan), verified 2026-11-17.
   "absent" without evidence. An evidence-less "absent"/"no_history" is now recorded as unknown,
   which the extraction rules already define as the meaning of silence.
 
+## Tricky cases (2026-11-17)
+
+`python scripts/live_eval.py [URL] [ROUNDS]` posts the four samples plus 14 harder cases from
+`tests/tricky_cases.py`: Spanish, French and informal Arabic-English text, prompt injection,
+personal use, non-beverage and mixed products, one-off and quarterly orders, a volume correction,
+a license status update, agent-only claims, an "up to" volume and an empty inquiry.
+
+- First run: 16/18 correct. The model returned product "unknown" for basmati rice (should be
+  unrelated, and it dropped the rice FCL volume) and for juice/water named only as what the buyer
+  imports (should be other beverage, which wrongly capped a 90 Hot at 79 Warm).
+- Fix: the prompt now says a named product is never "unknown", generic beverages count, and FCL
+  volume counts for any requested product.
+- After redeploy: 3 rounds, 54/54 correct; median 1.95 s, max 2.78 s.
+
 ## Steps (Vercel CLI)
 
 1. `npx vercel link --yes --project lead-scoring` from this folder.

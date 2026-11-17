@@ -39,8 +39,12 @@ Extract only what the BUYER (lead) states or explicitly confirms. Rules:
 Facts:
 - product: named_brand only for Coca-Cola/Coke, Monster, or Red Bull; other_beverage for any other
   beverage; unrelated only if the buyer requests only non-beverage products. A mixed request that includes
-  an explicitly requested beverage is classified by that beverage.
-- volume: FCL (full container load) quantities only. Do not convert pallets, cases, or cans into FCL.
+  an explicitly requested beverage is classified by that beverage. Generic beverages count (juice, water,
+  soda, energy drinks). If the buyer names what they want to buy, product is never "unknown": "unknown"
+  means no product is named at all. If they only describe what they currently import, use that as the
+  product they are buying.
+- volume: FCL (full container load) quantities only, of whatever product the buyer requests (including
+  non-beverage products; product fit is scored separately). Do not convert pallets, cases, or cans into FCL.
   fcl_lower/fcl_upper are the stated range per interval (a single number sets both; "up to N" has
   fcl_lower null and fcl_upper N). recurrence is "recurring" only for an explicitly repeated order
   (monthly, quarterly, every N months, weekly), "one_off" for a single/trial order, otherwise
